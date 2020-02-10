@@ -1,0 +1,17 @@
+000585cab960a802819e1b32896c7222 *DESCRIPTION
+619abfbc22376b7022c7ff486d9d1e94 *NAMESPACE
+c8ee1c470521b50839fec219ba409d17 *R/cxi_calc.R
+1bf9a5a29f02e2cb6150208160e8255c *R/cxi_trend.R
+5b1f79cf210db67902128e898727b878 *R/nps_calc.R
+9cfe01be7a29e96b52b3bc22e66ab19a *R/nps_trend.R
+b616dcb47350a0292f412a41eec8a0ef *R/utils.R
+abaa57d31ee2e7ba1f621503bbf675e2 *README.md
+1bf643c1a0bae133f4202b3850b301d2 *build/vignette.rds
+16e8330e2b1abfb4c83de131e71a326c *inst/doc/introduction_to_marketer.R
+6675006373de94cb59be985aa6085931 *inst/doc/introduction_to_marketer.Rmd
+0a4242042fd5b93c3b1edfc130a8e468 *inst/doc/introduction_to_marketer.html
+de1581d7987fd2491a31e91d61cf0472 *man/cxi_calc.Rd
+a88419ea3615fcc604915f4b779864f8 *man/cxi_trend.Rd
+b2a91633a98a7df718dc06df9de44d03 *man/nps_calc.Rd
+bfff3c808fc07a65e757a19e5f3b67e3 *man/nps_trend.Rd
+6675006373de94cb59be985aa6085931 *vignettes/introduction_to_marketer.Rmd

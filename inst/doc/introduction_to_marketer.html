@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+
+<title>Introduction to marketr</title>
+
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#header {
+text-align: center;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Introduction to marketr</h1>
+
+
+
+<div id="introduction-to-marketr" class="section level2">
+<h2>Introduction to marketr</h2>
+<p><code>marketr</code> facilitates tidy calculation of popular quantitative marketing metrics (like Customer Experience Index and Net Promoter Score). By “tidy”, I am referring to the usage of the tidyverse packages and methodology for organizing and analyzing data. The package is designed so that beginning R users can calculate these metrics, along many dimensions, without needing to learn much R syntax. It is also helpful for more experienced programmers to do these calculations quickly.</p>
+</div>
+<div id="generate-survey-response-data" class="section level2">
+<h2>Generate survey response data</h2>
+<p>To demonstrate the basic usage I will create simulated survey response data. <code>needs</code>, <code>ease</code> and <code>emotion</code> are the columns that make up CXi; <code>nps_question</code> is used for NPS; <code>grps</code> and <code>months</code> will show how these metrics can be calculated along categorical features and/or trended over time.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">library</span>(marketr)</a>
+<a class="sourceLine" id="cb1-2" title="2"><span class="kw">library</span>(dplyr)</a></code></pre></div>
+<pre><code>## 
+## Attaching package: &#39;dplyr&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:stats&#39;:
+## 
+##     filter, lag</code></pre>
+<pre><code>## The following objects are masked from &#39;package:base&#39;:
+## 
+##     intersect, setdiff, setequal, union</code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"><span class="kw">library</span>(magrittr)</a>
+<a class="sourceLine" id="cb5-2" title="2"><span class="kw">library</span>(ggplot2)</a>
+<a class="sourceLine" id="cb5-3" title="3"></a>
+<a class="sourceLine" id="cb5-4" title="4">needs &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="dv">2</span><span class="op">:</span><span class="dv">5</span>, <span class="dv">1000</span>, <span class="dt">replace =</span> T)</a>
+<a class="sourceLine" id="cb5-5" title="5">ease &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="dv">2</span><span class="op">:</span><span class="dv">5</span>, <span class="dv">1000</span>, <span class="dt">replace =</span> T)</a>
+<a class="sourceLine" id="cb5-6" title="6">emotion &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="dv">2</span><span class="op">:</span><span class="dv">5</span>, <span class="dv">1000</span>, <span class="dt">replace =</span> T)</a>
+<a class="sourceLine" id="cb5-7" title="7">nps_question &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="dv">3</span><span class="op">:</span><span class="dv">10</span>, <span class="dv">1000</span>, <span class="dt">replace =</span> T)</a>
+<a class="sourceLine" id="cb5-8" title="8">grps &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;a&quot;</span>, <span class="st">&quot;b&quot;</span>, <span class="st">&quot;c&quot;</span>)</a>
+<a class="sourceLine" id="cb5-9" title="9">months &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">12</span>, <span class="dv">1000</span>, <span class="dt">replace =</span> T)</a>
+<a class="sourceLine" id="cb5-10" title="10"></a>
+<a class="sourceLine" id="cb5-11" title="11">survey_data &lt;-<span class="st"> </span>tibble<span class="op">::</span><span class="kw">as_tibble</span>(<span class="kw">cbind</span>(needs, ease, emotion, nps_question, grps, months)) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb5-12" title="12"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">month =</span> <span class="kw">as.numeric</span>(months))</a></code></pre></div>
+<pre><code>## Warning in cbind(needs, ease, emotion, nps_question, grps, months): number of
+## rows of result is not a multiple of vector length (arg 5)</code></pre>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1"><span class="kw">head</span>(survey_data)</a></code></pre></div>
+<pre><code>## # A tibble: 6 x 7
+##   needs ease  emotion nps_question grps  months month
+##   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;        &lt;chr&gt; &lt;chr&gt;  &lt;dbl&gt;
+## 1 5     2     5       4            a     6          6
+## 2 5     5     4       3            b     11        11
+## 3 4     3     2       6            c     10        10
+## 4 4     4     3       9            a     7          7
+## 5 2     3     5       4            b     3          3
+## 6 3     5     4       10           c     9          9</code></pre>
+</div>
+<div id="calculating-cxi" class="section level2">
+<h2>Calculating CXi</h2>
+<p><em>Customer Experience Index</em> (CXI) was <a href="https://go.forrester.com/analytics/cx-index/">developed by Forrester</a>. Per Forrester, CXi “measures how successfully a company delivers customer experiences that create and sustain loyalty.”</p>
+<p>It involves scoring three questions, each with a likert scale response, and then averaging those scores together. Below, four calculations are done using two different functions.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1"><span class="co"># Overall CXi</span></a>
+<a class="sourceLine" id="cb9-2" title="2"><span class="kw">cxi_calc</span>(survey_data) <span class="op">%&gt;%</span><span class="st"> </span>knitr<span class="op">::</span><span class="kw">kable</span>()</a></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="right">cxi</th>
+<th align="right">survey_count</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">22.63333</td>
+<td align="right">1000</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1"><span class="co">## CXi by group</span></a>
+<a class="sourceLine" id="cb10-2" title="2"><span class="kw">cxi_calc</span>(survey_data, grps, <span class="dt">cx_high =</span> <span class="dv">4</span>, <span class="dt">cx_low =</span> <span class="dv">2</span>) <span class="op">%&gt;%</span><span class="st"> </span>knitr<span class="op">::</span><span class="kw">kable</span>()</a></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">grps</th>
+<th align="right">cxi</th>
+<th align="right">survey_count</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">a</td>
+<td align="right">26.24751</td>
+<td align="right">334</td>
+</tr>
+<tr class="even">
+<td align="left">b</td>
+<td align="right">23.42342</td>
+<td align="right">333</td>
+</tr>
+<tr class="odd">
+<td align="left">c</td>
+<td align="right">18.21822</td>
+<td align="right">333</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1"><span class="co"># Overall CXi trend</span></a>
+<a class="sourceLine" id="cb11-2" title="2"><span class="kw">cxi_trend</span>(survey_data, month) <span class="op">%&gt;%</span><span class="st"> </span>knitr<span class="op">::</span><span class="kw">kable</span>() </a></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="right">avg_survey_ct</th>
+<th align="right">min_survey_ct</th>
+<th align="right">month</th>
+<th align="right">cxi</th>
+<th align="right">survey_count</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">83.33333</td>
+<td align="right">67</td>
+<td align="right">1</td>
+<td align="right">21.969697</td>
+<td align="right">88</td>
+</tr>
+<tr class="even">
+<td align="right">83.33333</td>
+<td align="right">67</td>
+<td align="right">2</td>
+<td align="right">26.736111</td>
+<td align="right">96</td>
+</tr>
+<tr class="odd">
+<td align="right">83.33333</td>
+<td align="right">67</td>
+<td align="right">3</td>
+<td align="right">25.287356</td>
+<td align="right">87</td>
+</tr>
+<tr class="even">
+<td align="right">83.33333</td>
+<td align="right">67</td>
+<td align="right">4</td>
+<td align="right">9.389671</td>
+<td align="right">71</td>
+</tr>
+<tr class="odd">
+<td align="right">83.33333</td>
+<td align="right">67</td>
+<td align="right">5</td>
+<td align="right">20.930233</td>
+<td align="right">86</td>
+</tr>
+<tr class="even">
+<td align="right">83.33333</td>
+<td align="right">67</td>
+<td align="right">6</td>
+<td align="right">17.370892</td>
+<td align="right">71</td>
+</tr>
+<tr class="odd">
+<td align="right">83.33333</td>
+<td align="right">67</td>
+<td align="right">7</td>
+<td align="right">28.691983</td>
+<td align="right">79</td>
+</tr>
+<tr class="even">
+<td align="right">83.33333</td>
+<td align="right">67</td>
+<td align="right">8</td>
+<td align="right">26.881720</td>
+<td align="right">93</td>
+</tr>
+<tr class="odd">
+<td align="right">83.33333</td>
+<td align="right">67</td>
+<td align="right">9</td>
+<td align="right">25.870647</td>
+<td align="right">67</td>
+</tr>
+<tr class="even">
+<td align="right">83.33333</td>
+<td align="right">67</td>
+<td align="right">10</td>
+<td align="right">29.166667</td>
+<td align="right">88</td>
+</tr>
+<tr class="odd">
+<td align="right">83.33333</td>
+<td align="right">67</td>
+<td align="right">11</td>
+<td align="right">25.842697</td>
+<td align="right">89</td>
+</tr>
+<tr class="even">
+<td align="right">83.33333</td>
+<td align="right">67</td>
+<td align="right">12</td>
+<td align="right">10.196078</td>
+<td align="right">85</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1"><span class="co"># Overall CXi trend by group - plotted</span></a>
+<a class="sourceLine" id="cb12-2" title="2"><span class="kw">cxi_trend</span>(survey_data, month, grps, <span class="dt">cx_high =</span> <span class="dv">4</span>, <span class="dt">cx_low =</span> <span class="dv">2</span>, <span class="dt">min_surveys =</span> <span class="dv">1</span>, <span class="dt">avg_surveys =</span> <span class="dv">0</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb12-3" title="3"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> month, <span class="dt">y =</span> cxi)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb12-4" title="4"><span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb12-5" title="5"><span class="st">  </span><span class="kw">facet_wrap</span>(grps <span class="op">~</span><span class="st"> </span>., <span class="dt">nrow =</span> <span class="dv">3</span>)</a></code></pre></div>
+<pre><code>## Joining, by = &quot;grps&quot;Joining, by = &quot;grps&quot;</code></pre>
+<p><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAkAAAAEgCAMAAABrWDzDAAABC1BMVEUAAAAAADoAAGYAOpAAZrYZGT8ZGWIZP2IZP4EZYp8aGhozMzM6AAA6ADo6kNs/GRk/GT8/GWI/P4FNTU1NTW5NTY5NbqtNjshiGRliGT9iGWJiPxliYmJin9lmAABmZrZmtv9uTU1uTW5uTY5ubo5ubqtuq+SBPxmBvdmOTU2OTW6OTY6Obk2OyP+QOgCQOmaQkGaQtpCQ2/+fYhmfYj+f2dmrbk2rbm6rbo6ryKur5OSr5P+2ZgC2Zma22/+2//+9gT+92dnIjk3I///Zn2LZvYHZ2Z/Z2b3Z2dnbkDrb2//b///kq27k///r6+v/tmb/yI7/25D/27b/5Kv//7b//8j//9v//+T///8TKSd4AAAACXBIWXMAAA7DAAAOwwHHb6hkAAAPgklEQVR4nO2dC3vUxhWGJ8RpUhdoqUyaXqA2oRtoWdpCCQWnJbFr4jQbsLvY1v//JdVI2l1pdzRzZo7mtv7e54kD2J9HGr0azUUeixIABiL2AYC8gUCABQQCLCAQYAGBAAsIBFhYCnQKQA0EAiwgEGABgQALCARYQCDAAgIBFhAIsIBAgAUEAiwgEGABgRw5+eXu7r3YB5EAEMiNt799dHpy50Xsw4gPBHLn7e8gEARy5vnu7s8gEARy5O0X9/AIk0AgN6Q8J796FPsw4gOBHPl2d/fT32MYBoEADwgEWEAgwAICARYQCLBwFOidGcrXjBNCKmKKJNDV19OyvHhcfP4TBEKqnyIJNCumtUSz30AgpPopikDzh0+m5cVfjsv5l8cQKOWUWOG9rDZFEOjq5euq9Zn/6afy4s+H1d9/UaFrr0BYOtYY/9XjUQx/ajaRj6+zzxcCSXwpnfT9nVRquK3ZSJGaJX8tUNX0XPVaIAgULUV6RGnK0uT9CTQrJJOx+0DqKsjwonpOCUGyxrqs9W/ofRh/9fVkxFGYPHRVdeRxUf2mhL0zjLJcUt2yyAL154F4tP26rdzUSqixyAQ60EXZcb4PSU6j9Zu3V6qtAi013GIMeaVvZYKcV1u81xZoRIH61bVRd6mo4JBy7di6lDVuSnDKIgh0VhR3j8dZytis47V/SLqih1PGzkr0I9QiD97jML4aelW95xGWMpSV3P+3tCtamSL1dFM/L+H5EVZJxB7GD1Vz759Tr+j11LhD64gpl+HeO7pAVdPDW8rQDS5yHYyFHzF5hXku2sXUg71D1lKGQe8RprOCpyxnaHI4L7c5J5p/lTnuSxnmA1t9QQ4VTev1jFRW0JS9QeRh/NHUsQ9Eq+vlFyVf0W6Tw+mfV5NyuDHMArXPLqelDPoBic5pWOOsguV6gfzKTFRwTVkaRGqBZkVR9YEcljKs+pihZ/BF/2/G5Yct6zIP4nqW489E2zaHrPlQy6LqYzOmlMsN2bQlzimb60ZqgeYHRWH7Ur28XW1PgXRRB07Dqpzwj8u8UhYGUQSSQ6/5g0ObmWjaDb4ZC1Bl16otcU3RHx6kTrS0xmYU5r68672L2quZvC5q2BTVIKd5IP1MNKur6bWbek16weNgXVeGF8omxJlowZwTdFuScevT59YqBE6RrgStBbp4PCmDvVTvZZpOOdWT4UUNmqLczMRR2FRaFOoHC0d/C3hoojDHixo2RXlNxSxQ48/IL9XrQi4rMsNEfmE075SxEaL/WM90zJfqDYzX10W/mQu5/pLa3mWkte6sXzNNJaWvROIwvu77hNzexXpJbxPzEmkKlyeHlP4HoikCncmX6sNu72JnkOsIwoVrmNJUJkmgo71XVQsUeHsXqwmhtaKI72ckcnlySGkGIuRHWPDtXVy7v+g3e8BcqUaBwm/vQm+DOu2WRcuVzP2ddYosUITtXSzWhNuXd9zLQsoxRRYoxhZ3Fq+aet7FAqmhFFmgcDPRHcxaNO+euhSVxeVJP0UWKOBMdAfdYUXYCwUMktRMdAf1s2mtw5PDnbqtKbpAsTYaXzNI1VnOoaK3NUUWKN5G4ytdhjrLOVT0tqbIAkXcaFxKE38nL6SUKbJAMTcaR2c5fYxXCBuNI6VKkQXCRuNIqVJkgfDLVpBSpcgCRZmJRir5FFkg/MI5pFQpukAAaIBAgAUEAiwgEGABgQALCARYQCDAwlKgUwBqIBBgAYEACwgEWEAgwAICARYQCLCAQIAFBAIsIJAjz+/FPoI0gECOQKAGCOTI8z/s7sIhCOTM88++O7nzIvZRxAcCOSIfYXiMQSBn/vEIAkkgkCOVPN9/BYEgkCvPf36KPtApBHKmGoV98ij2QSQABAIsIBBgAYEACwgEWEAgwAICARYkgeQWv9gfCClViiTQrJhG3CcaqZRTFIHmD59MsUciUsoUQaCrl6+r1ifmPtEgfTQCzSby8YV9opFSpcwCVU3PVa8FgkBIrVJmgWaFZII+EFKqFOER1gzjsU80UqoUWSDMAyGlSpEEAsBEqr/ykvT7vHO4U7c1RRDorCjurv/SXV9H1AuJlTt6iXKo6G1NmQWSQ6+q9xx0KUOomp1hiXKo6G1N0R5hlUSBhvFKdVaoP5lDRSeY6lW1X4Gqpoe2lCFatN9NFyV+ocP3B12WlThWbWoXUw/2Di2XMkQP0hdb3Qf4vfGM1MYlqSVyLIsiUCnN4SxlDOq08Q82p7GKJnV5kk4N38+UO11V1oZAH+7vf7jfXNgbb5YGHU3H6wPpmibbKmu+SSqXJ+0UYSRrLRGlBWqfXekuZTjdOo5l5ZqymEuzqk61QJf/7Rk0K4qqD9SfB0oNdKyHcagbl0jnzx/u35b/u/zrm4EvTqsFWqRsW6LYrUKAlEXHZqMsUnbgEfZefPxj9aHtA80PiiKXxVTqwG+MshJPWd5P6rJM32SoD1R3o3eaP8uh1/zBYWYv1RPmEbJRwT7l0C0cLkv3zQY70ec3xe32j2fSmjFHYaOHaDMfGzploYIt5PbXrqzhRSSlQJdPxU79GFvQmwfK/qV6oSP2wbkS+/D7neiPnsmPy3kgOYS/Li/Va+1ynTHweV4bhxV/MfXDH5v//6sV6OLxpMRL9YuUk1YejnCw5PgCrTE/mEqLcu4D+U8ZGy6Xdk3bRtoeoYFRBbp8erv6b6frD16q95uiaEV8hiYg0Dc7tUWNQc2P9UzTnoneUvo6xT4aLf1O9L783/sbec1EIxUjRRKo7vtkMRONVAoClT9IddoVsVK+VX/3GNu7IKVMKQUq38tH7sKfo71XVQuEURhSqpRaoDWkOFs0Ew08YBTousxEI2WXIguEmWikVCmyQOgDIaVKkQXCTDRSqhRZIMxEAx3p7s6BVNIpCIQUK0UXCEsZSClSZIGwlIGUKkUWCMN4pFQpskBYygA6jAJhKQMpVYosEJYykFKlyAKhD4SUKkUWCEsZSKlSZIGwlAF0pP3KP0geCARYQCDAAgIBFhAIsIBAgIWlQKcA1EAgwAICARYQCLCAQIAFBAIsIBBgAYEACwgEWEAgwAICARYQyJW3X+x+8ij2QcQHAjny/Vf3Tv/z2XexDyM6EMiRkzsvYh9CEkAgR05+jdZHAoEcQQvUAIEckX0gSASB3MEorAYCARYQCLCAQIAFBAIsIBBgAYEAC0eBfG04k8OOOEh1UySB5Ba/2CcaKVWKJNCsmGKfaKSUKYpA84dPptgjESlliiDQ1cvXVeuDfaKBDo1As4l8fGGfaKRUKbNAVdNz1WuBIBBSq5RZoFkhmaAPhJQqRXiENcN47BNNTAkhgpWVQIosEPaJJiFE/UGI67blW8oz0apbml+Uj1T3SEW3KUrmCEdPEQQ6K4q7679019cRbYbqy2AwKJGK3hRdLCxK5Ag9pMwCyZ5z1fmJMhO9vIn1BqVR0UPHKISyW8QqK50U7RFWSRR+FNardu0VSKGi9Y6UThalcF6mFE2gqukJPRO93gtNu1dKO7pt7lxr18IO9g7DzkQr79bhGzj6nWpsWzopi6Yo+nkRUhSBSmlOuJnowQoerPfIFU0QYrNvR7FoewQqj6aB+kDaih36VNSKJrUnqrJEi13KrSx/KbNA7bMrxEy08bYc+HTEiiY+jnRliRUWKbeyxk8RWqBZUVR9IO8z0aT+ZWpd0JGPZ6XSuN83AJFnohd3n3mliV3UiCn6wNy6rOFmafyyWCmCQPODovD7TvSqksyhdJYqbS4tpyxhjXtZ9imzQHLoNX9w6G0munfClNBm/UQRyOoyhT1CF4U8dqKlNb5GYeu3Cy3kVNQGrJTlNQp9hPbNUMB5oNFmop37itG7mDl0cgMfo+F9oAlrJpr+qCbeB2vRwPe3wxMizkM2RC+NItDF40lJfCea26kjd5ycUm5lradc+qhbOE5sUwSB5gdTaVFa70T3Kibk5Qk7xuGnqPevx/eBan+Seye6Wy1ORTmNeKuOhUtZmS62UFJmgZqfypgm9040r5O4SNtN/WbQd1YSYGo75Xeih7CYflxPio0Uob+mSFGJnzK1tl6H8XXfJ8HdORZVYlmUdtlksOdPXWxRkkRKq5BPgc7kS/VJ7s4hHFKCqF3fJGpqgERSmmbIo0BHe6+qFiixUViLdavg8KM2/fYoERWcU0MKeX+EJbo7h13fLYcZZO/46VEbBUp1dw56x9Zp3W2DrUgpmqGALVBaAkmDSGv4KSzBppPa6A15FyjNPpCEMrmXzltE6aTEKLP5ZIFSm4nuYpppVXccU7yoYVPdYea1nAdaprQGjT3u2LoU411G8o/1pM7w4WPgZcNKJeuk3Zf7uBGcQ/U7OspPaO+ppFuF6Clas2TTAqX8CHunNMjT6s+1S2ksshAoyaWMbmr9FPPZlirrFFmgdIfxi1TPGPufV7cqC6lFiixQoksZPZYngZ5zcIw1nupSRi+1tnLutSyk3jm2QAkLJA3aqt130k+RBUq/D1RjMReWw+VJP0UWKOWlDKTipcgChXmpPmTvHGWNWVYiw5btr+htLQsCoSxWWRAIZbHKSkQgkCsQCLCAQIAFBAIsIBBgEVmgdifYstkM5O6x4ctZrErwPje62NmkDHBeay+uez23uqz+NYsrULsTrPzj0dR3YcsS+u/I+eKsuY6+z2ttAwOv51aXtXbN4grU7gRbfbh6eWj6YiarEvrrw55o32DwfV7rGxj4PLemrLVrFr8P1NR01fIuGkZf5SxL6L+h4om2GfB/Xv0fH/Z7bgs1O9csukBytb9CNop+79ZVCf135Pyw+P4Bzqu3gYHfc2sF6l6z2ALVO8EuCNQPCtECnXV7sl7PK3wL1Ltm0Udh3boNJFCIPtDRpPsX3wKF6QMtR2Hd04kr0OpY5B179U+fF3VVQv8dOS8sn1r+z6u/gYHfc6tbu/41iytQO19S/4bx5reT+S2sKqG+Yb2/I9c+T0KcV2ceyPu5tSfUvWax+0AgcyAQYAGBAAsIBFhAIMACAgEWEIjB//5dnt96Fvso4gKB3JHyQKDYB5AxEKiEQAbOb/39phC3z6sP+2V5+VSIncU/7p/Xn7n1N1F/7roCgbSc3/z4x/IHIT/ceHP5dKeU/zX/eONN3QK1f459oNGAQFrOb+4vPtx69l56Un1Y/L0RqPlz7AONBgTSUqux+PC+amwW4iwFWn7BNQUCaYFAJiCQlr5AHz1rHmEQaAUE0tITaNmJbv/+4f4+BIJAWnoCrYbx7d+/ETsQKPYBgLyBQIAFBAIsIBBgAYEACwgEWEAgwAICARYQCLCAQIDF/wFyxh8UY7vWKQAAAABJRU5ErkJggg==" /><!-- --></p>
+</div>
+<div id="calculating-nps" class="section level2">
+<h2>Calculating NPS</h2>
+<p><em>Net Promoter Score</em> (NPS) was originally developed by Fred Reichheld and now is owned by <a href="https://www.netpromoter.com/">Bain Company and Satmetrix Systems</a>. The <a href="https://en.wikipedia.org/wiki/Net_Promoter">Wikipedia page</a> is another good source of information. According to Wikipedia it “is a management tool that can be used to gauge the loyalty of a firm’s customer relationships.”</p>
+<p>The calculation requires a single question with a ten-point scale. Like CXi it is not difficult to do manually; the package enables deeper analysis.Below, four calculations are done using two different functions.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" title="1"><span class="co"># Overall NPS</span></a>
+<a class="sourceLine" id="cb14-2" title="2"><span class="kw">nps_calc</span>(survey_data) <span class="op">%&gt;%</span><span class="st"> </span>knitr<span class="op">::</span><span class="kw">kable</span>()</a></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="right">nps</th>
+<th align="right">survey_count</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">-46.3</td>
+<td align="right">1000</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" title="1"><span class="co">## NPS by group</span></a>
+<a class="sourceLine" id="cb15-2" title="2"><span class="kw">nps_calc</span>(survey_data, grps) <span class="op">%&gt;%</span><span class="st"> </span>knitr<span class="op">::</span><span class="kw">kable</span>()</a></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="left">grps</th>
+<th align="right">nps</th>
+<th align="right">survey_count</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">a</td>
+<td align="right">-46.70659</td>
+<td align="right">334</td>
+</tr>
+<tr class="even">
+<td align="left">b</td>
+<td align="right">-42.34234</td>
+<td align="right">333</td>
+</tr>
+<tr class="odd">
+<td align="left">c</td>
+<td align="right">-49.84985</td>
+<td align="right">333</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" title="1"><span class="co"># Overall NPS trend</span></a>
+<a class="sourceLine" id="cb16-2" title="2"><span class="kw">nps_trend</span>(survey_data, month) <span class="op">%&gt;%</span><span class="st"> </span>knitr<span class="op">::</span><span class="kw">kable</span>()</a></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="right">avg_survey_ct</th>
+<th align="right">min_survey_ct</th>
+<th align="right">month</th>
+<th align="right">nps</th>
+<th align="right">survey_count</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">83.33333</td>
+<td align="right">67</td>
+<td align="right">1</td>
+<td align="right">-36.36364</td>
+<td align="right">88</td>
+</tr>
+<tr class="even">
+<td align="right">83.33333</td>
+<td align="right">67</td>
+<td align="right">2</td>
+<td align="right">-46.87500</td>
+<td align="right">96</td>
+</tr>
+<tr class="odd">
+<td align="right">83.33333</td>
+<td align="right">67</td>
+<td align="right">3</td>
+<td align="right">-70.11494</td>
+<td align="right">87</td>
+</tr>
+<tr class="even">
+<td align="right">83.33333</td>
+<td align="right">67</td>
+<td align="right">4</td>
+<td align="right">-54.92958</td>
+<td align="right">71</td>
+</tr>
+<tr class="odd">
+<td align="right">83.33333</td>
+<td align="right">67</td>
+<td align="right">5</td>
+<td align="right">-41.86047</td>
+<td align="right">86</td>
+</tr>
+<tr class="even">
+<td align="right">83.33333</td>
+<td align="right">67</td>
+<td align="right">6</td>
+<td align="right">-50.70423</td>
+<td align="right">71</td>
+</tr>
+<tr class="odd">
+<td align="right">83.33333</td>
+<td align="right">67</td>
+<td align="right">7</td>
+<td align="right">-53.16456</td>
+<td align="right">79</td>
+</tr>
+<tr class="even">
+<td align="right">83.33333</td>
+<td align="right">67</td>
+<td align="right">8</td>
+<td align="right">-31.18280</td>
+<td align="right">93</td>
+</tr>
+<tr class="odd">
+<td align="right">83.33333</td>
+<td align="right">67</td>
+<td align="right">9</td>
+<td align="right">-53.73134</td>
+<td align="right">67</td>
+</tr>
+<tr class="even">
+<td align="right">83.33333</td>
+<td align="right">67</td>
+<td align="right">10</td>
+<td align="right">-51.13636</td>
+<td align="right">88</td>
+</tr>
+<tr class="odd">
+<td align="right">83.33333</td>
+<td align="right">67</td>
+<td align="right">11</td>
+<td align="right">-32.58427</td>
+<td align="right">89</td>
+</tr>
+<tr class="even">
+<td align="right">83.33333</td>
+<td align="right">67</td>
+<td align="right">12</td>
+<td align="right">-38.82353</td>
+<td align="right">85</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" title="1"><span class="co"># Overall NPS trend by group - plotted</span></a>
+<a class="sourceLine" id="cb17-2" title="2"><span class="kw">nps_trend</span>(survey_data, month, grps, <span class="dt">min_surveys =</span> <span class="dv">1</span>, <span class="dt">avg_surveys =</span> <span class="dv">0</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb17-3" title="3"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> month, <span class="dt">y =</span> nps)) <span class="op">+</span></a>
+<a class="sourceLine" id="cb17-4" title="4"><span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span></a>
+<a class="sourceLine" id="cb17-5" title="5"><span class="st">  </span><span class="kw">facet_wrap</span>(grps <span class="op">~</span><span class="st"> </span>., <span class="dt">nrow =</span> <span class="dv">3</span>)</a></code></pre></div>
+<pre><code>## Joining, by = &quot;grps&quot;Joining, by = &quot;grps&quot;</code></pre>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
