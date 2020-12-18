@@ -8,19 +8,35 @@
 <meta name="generator" content="pandoc" />
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 
 
 
 <title>Introduction to marketr</title>
 
+<script>// Hide empty <a> tag within highlighted CodeBlock for screen reader accessibility (see https://github.com/jgm/pandoc/issues/6352#issuecomment-626106786) -->
+// v0.0.1
+// Written by JooYoung Seo (jooyoung@psu.edu) and Atsushi Yasumoto on June 1st, 2020.
+
+document.addEventListener('DOMContentLoaded', function() {
+  const codeList = document.getElementsByClassName("sourceCode");
+  for (var i = 0; i < codeList.length; i++) {
+    var linkList = codeList[i].getElementsByTagName('a');
+    for (var j = 0; j < linkList.length; j++) {
+      if (linkList[j].innerHTML === "") {
+        linkList[j].setAttribute('aria-hidden', 'true');
+      }
+    }
+  }
+});
+</script>
 
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css" data-origin="pandoc">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode { white-space: pre; position: relative; }
 div.sourceCode { margin: 1em 0; }
@@ -30,14 +46,16 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(title);
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -46,9 +64,9 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  }
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -115,9 +133,6 @@ padding-right: 2em;
 font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
 font-size: 14px;
 line-height: 1.35;
-}
-#header {
-text-align: center;
 }
 #TOC {
 clear: both;
@@ -286,7 +301,8 @@ code > span.st { color: #d14; }
 code > span.co { color: #888888; font-style: italic; } 
 code > span.ot { color: #007020; } 
 code > span.al { color: #ff0000; font-weight: bold; } 
-code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61717; background-color: #e3d2d2; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
 </style>
 
 
@@ -310,8 +326,10 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <div id="generate-survey-response-data" class="section level2">
 <h2>Generate survey response data</h2>
 <p>To demonstrate the basic usage I will create simulated survey response data. <code>needs</code>, <code>ease</code> and <code>emotion</code> are the columns that make up CXi; <code>nps_question</code> is used for NPS; <code>grps</code> and <code>months</code> will show how these metrics can be calculated along categorical features and/or trended over time.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">library</span>(marketr)</a>
-<a class="sourceLine" id="cb1-2" title="2"><span class="kw">library</span>(dplyr)</a></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">library</span>(marketr)</span></code></pre></div>
+<pre><code>## Warning: replacing previous import &#39;vctrs::data_frame&#39; by &#39;tibble::data_frame&#39;
+## when loading &#39;dplyr&#39;</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw">library</span>(dplyr)</span></code></pre></div>
 <pre><code>## 
 ## Attaching package: &#39;dplyr&#39;</code></pre>
 <pre><code>## The following objects are masked from &#39;package:stats&#39;:
@@ -320,37 +338,37 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <pre><code>## The following objects are masked from &#39;package:base&#39;:
 ## 
 ##     intersect, setdiff, setequal, union</code></pre>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"><span class="kw">library</span>(magrittr)</a>
-<a class="sourceLine" id="cb5-2" title="2"><span class="kw">library</span>(ggplot2)</a>
-<a class="sourceLine" id="cb5-3" title="3"></a>
-<a class="sourceLine" id="cb5-4" title="4">needs &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="dv">2</span><span class="op">:</span><span class="dv">5</span>, <span class="dv">1000</span>, <span class="dt">replace =</span> T)</a>
-<a class="sourceLine" id="cb5-5" title="5">ease &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="dv">2</span><span class="op">:</span><span class="dv">5</span>, <span class="dv">1000</span>, <span class="dt">replace =</span> T)</a>
-<a class="sourceLine" id="cb5-6" title="6">emotion &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="dv">2</span><span class="op">:</span><span class="dv">5</span>, <span class="dv">1000</span>, <span class="dt">replace =</span> T)</a>
-<a class="sourceLine" id="cb5-7" title="7">nps_question &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="dv">3</span><span class="op">:</span><span class="dv">10</span>, <span class="dv">1000</span>, <span class="dt">replace =</span> T)</a>
-<a class="sourceLine" id="cb5-8" title="8">grps &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;a&quot;</span>, <span class="st">&quot;b&quot;</span>, <span class="st">&quot;c&quot;</span>)</a>
-<a class="sourceLine" id="cb5-9" title="9">months &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">12</span>, <span class="dv">1000</span>, <span class="dt">replace =</span> T)</a>
-<a class="sourceLine" id="cb5-10" title="10"></a>
-<a class="sourceLine" id="cb5-11" title="11">survey_data &lt;-<span class="st"> </span>tibble<span class="op">::</span><span class="kw">as_tibble</span>(<span class="kw">cbind</span>(needs, ease, emotion, nps_question, grps, months)) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb5-12" title="12"><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">month =</span> <span class="kw">as.numeric</span>(months))</a></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="kw">library</span>(magrittr)</span>
+<span id="cb7-2"><a href="#cb7-2"></a><span class="kw">library</span>(ggplot2)</span>
+<span id="cb7-3"><a href="#cb7-3"></a></span>
+<span id="cb7-4"><a href="#cb7-4"></a>needs &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="dv">2</span><span class="op">:</span><span class="dv">5</span>, <span class="dv">1000</span>, <span class="dt">replace =</span> T)</span>
+<span id="cb7-5"><a href="#cb7-5"></a>ease &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="dv">2</span><span class="op">:</span><span class="dv">5</span>, <span class="dv">1000</span>, <span class="dt">replace =</span> T)</span>
+<span id="cb7-6"><a href="#cb7-6"></a>emotion &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="dv">2</span><span class="op">:</span><span class="dv">5</span>, <span class="dv">1000</span>, <span class="dt">replace =</span> T)</span>
+<span id="cb7-7"><a href="#cb7-7"></a>nps_question &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="dv">3</span><span class="op">:</span><span class="dv">10</span>, <span class="dv">1000</span>, <span class="dt">replace =</span> T)</span>
+<span id="cb7-8"><a href="#cb7-8"></a>grps &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;a&quot;</span>, <span class="st">&quot;b&quot;</span>, <span class="st">&quot;c&quot;</span>)</span>
+<span id="cb7-9"><a href="#cb7-9"></a>months &lt;-<span class="st"> </span><span class="kw">sample</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">12</span>, <span class="dv">1000</span>, <span class="dt">replace =</span> T)</span>
+<span id="cb7-10"><a href="#cb7-10"></a></span>
+<span id="cb7-11"><a href="#cb7-11"></a>survey_data &lt;-<span class="st"> </span>tibble<span class="op">::</span><span class="kw">as_tibble</span>(<span class="kw">cbind</span>(needs, ease, emotion, nps_question, grps, months)) <span class="op">%&gt;%</span></span>
+<span id="cb7-12"><a href="#cb7-12"></a><span class="st">  </span><span class="kw">mutate</span>(<span class="dt">month =</span> <span class="kw">as.numeric</span>(months))</span></code></pre></div>
 <pre><code>## Warning in cbind(needs, ease, emotion, nps_question, grps, months): number of
 ## rows of result is not a multiple of vector length (arg 5)</code></pre>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1"><span class="kw">head</span>(survey_data)</a></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="kw">head</span>(survey_data)</span></code></pre></div>
 <pre><code>## # A tibble: 6 x 7
 ##   needs ease  emotion nps_question grps  months month
 ##   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt;        &lt;chr&gt; &lt;chr&gt;  &lt;dbl&gt;
-## 1 5     2     5       4            a     6          6
-## 2 5     5     4       3            b     11        11
-## 3 4     3     2       6            c     10        10
-## 4 4     4     3       9            a     7          7
-## 5 2     3     5       4            b     3          3
-## 6 3     5     4       10           c     9          9</code></pre>
+## 1 3     4     5       9            a     2          2
+## 2 5     4     5       10           b     12        12
+## 3 3     2     4       5            c     1          1
+## 4 3     2     4       6            a     3          3
+## 5 4     3     3       10           b     9          9
+## 6 5     3     2       5            c     6          6</code></pre>
 </div>
 <div id="calculating-cxi" class="section level2">
 <h2>Calculating CXi</h2>
 <p><em>Customer Experience Index</em> (CXI) was <a href="https://go.forrester.com/analytics/cx-index/">developed by Forrester</a>. Per Forrester, CXi “measures how successfully a company delivers customer experiences that create and sustain loyalty.”</p>
 <p>It involves scoring three questions, each with a likert scale response, and then averaging those scores together. Below, four calculations are done using two different functions.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1"><span class="co"># Overall CXi</span></a>
-<a class="sourceLine" id="cb9-2" title="2"><span class="kw">cxi_calc</span>(survey_data) <span class="op">%&gt;%</span><span class="st"> </span>knitr<span class="op">::</span><span class="kw">kable</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="co"># Overall CXi</span></span>
+<span id="cb11-2"><a href="#cb11-2"></a><span class="kw">cxi_calc</span>(survey_data) <span class="op">%&gt;%</span><span class="st"> </span>knitr<span class="op">::</span><span class="kw">kable</span>()</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -360,13 +378,13 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 </thead>
 <tbody>
 <tr class="odd">
-<td align="right">22.63333</td>
+<td align="right">25.03333</td>
 <td align="right">1000</td>
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" title="1"><span class="co">## CXi by group</span></a>
-<a class="sourceLine" id="cb10-2" title="2"><span class="kw">cxi_calc</span>(survey_data, grps, <span class="dt">cx_high =</span> <span class="dv">4</span>, <span class="dt">cx_low =</span> <span class="dv">2</span>) <span class="op">%&gt;%</span><span class="st"> </span>knitr<span class="op">::</span><span class="kw">kable</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="co">## CXi by group</span></span>
+<span id="cb12-2"><a href="#cb12-2"></a><span class="kw">cxi_calc</span>(survey_data, grps, <span class="dt">cx_high =</span> <span class="dv">4</span>, <span class="dt">cx_low =</span> <span class="dv">2</span>) <span class="op">%&gt;%</span><span class="st"> </span>knitr<span class="op">::</span><span class="kw">kable</span>()</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -378,23 +396,23 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <tbody>
 <tr class="odd">
 <td align="left">a</td>
-<td align="right">26.24751</td>
+<td align="right">25.74850</td>
 <td align="right">334</td>
 </tr>
 <tr class="even">
 <td align="left">b</td>
-<td align="right">23.42342</td>
+<td align="right">25.72573</td>
 <td align="right">333</td>
 </tr>
 <tr class="odd">
 <td align="left">c</td>
-<td align="right">18.21822</td>
+<td align="right">23.62362</td>
 <td align="right">333</td>
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1"><span class="co"># Overall CXi trend</span></a>
-<a class="sourceLine" id="cb11-2" title="2"><span class="kw">cxi_trend</span>(survey_data, month) <span class="op">%&gt;%</span><span class="st"> </span>knitr<span class="op">::</span><span class="kw">kable</span>() </a></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a><span class="co"># Overall CXi trend</span></span>
+<span id="cb13-2"><a href="#cb13-2"></a><span class="kw">cxi_trend</span>(survey_data, month) <span class="op">%&gt;%</span><span class="st"> </span>knitr<span class="op">::</span><span class="kw">kable</span>() </span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -408,104 +426,105 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <tbody>
 <tr class="odd">
 <td align="right">83.33333</td>
-<td align="right">67</td>
+<td align="right">71</td>
 <td align="right">1</td>
-<td align="right">21.969697</td>
-<td align="right">88</td>
-</tr>
-<tr class="even">
-<td align="right">83.33333</td>
-<td align="right">67</td>
-<td align="right">2</td>
-<td align="right">26.736111</td>
-<td align="right">96</td>
-</tr>
-<tr class="odd">
-<td align="right">83.33333</td>
-<td align="right">67</td>
-<td align="right">3</td>
-<td align="right">25.287356</td>
-<td align="right">87</td>
-</tr>
-<tr class="even">
-<td align="right">83.33333</td>
-<td align="right">67</td>
-<td align="right">4</td>
-<td align="right">9.389671</td>
-<td align="right">71</td>
-</tr>
-<tr class="odd">
-<td align="right">83.33333</td>
-<td align="right">67</td>
-<td align="right">5</td>
-<td align="right">20.930233</td>
-<td align="right">86</td>
-</tr>
-<tr class="even">
-<td align="right">83.33333</td>
-<td align="right">67</td>
-<td align="right">6</td>
-<td align="right">17.370892</td>
-<td align="right">71</td>
-</tr>
-<tr class="odd">
-<td align="right">83.33333</td>
-<td align="right">67</td>
-<td align="right">7</td>
-<td align="right">28.691983</td>
-<td align="right">79</td>
-</tr>
-<tr class="even">
-<td align="right">83.33333</td>
-<td align="right">67</td>
-<td align="right">8</td>
-<td align="right">26.881720</td>
-<td align="right">93</td>
-</tr>
-<tr class="odd">
-<td align="right">83.33333</td>
-<td align="right">67</td>
-<td align="right">9</td>
-<td align="right">25.870647</td>
-<td align="right">67</td>
-</tr>
-<tr class="even">
-<td align="right">83.33333</td>
-<td align="right">67</td>
-<td align="right">10</td>
-<td align="right">29.166667</td>
-<td align="right">88</td>
-</tr>
-<tr class="odd">
-<td align="right">83.33333</td>
-<td align="right">67</td>
-<td align="right">11</td>
-<td align="right">25.842697</td>
-<td align="right">89</td>
-</tr>
-<tr class="even">
-<td align="right">83.33333</td>
-<td align="right">67</td>
-<td align="right">12</td>
-<td align="right">10.196078</td>
+<td align="right">23.52941</td>
 <td align="right">85</td>
+</tr>
+<tr class="even">
+<td align="right">83.33333</td>
+<td align="right">71</td>
+<td align="right">2</td>
+<td align="right">23.07692</td>
+<td align="right">91</td>
+</tr>
+<tr class="odd">
+<td align="right">83.33333</td>
+<td align="right">71</td>
+<td align="right">3</td>
+<td align="right">21.17647</td>
+<td align="right">85</td>
+</tr>
+<tr class="even">
+<td align="right">83.33333</td>
+<td align="right">71</td>
+<td align="right">4</td>
+<td align="right">27.10623</td>
+<td align="right">91</td>
+</tr>
+<tr class="odd">
+<td align="right">83.33333</td>
+<td align="right">71</td>
+<td align="right">5</td>
+<td align="right">22.22222</td>
+<td align="right">72</td>
+</tr>
+<tr class="even">
+<td align="right">83.33333</td>
+<td align="right">71</td>
+<td align="right">6</td>
+<td align="right">36.25000</td>
+<td align="right">80</td>
+</tr>
+<tr class="odd">
+<td align="right">83.33333</td>
+<td align="right">71</td>
+<td align="right">7</td>
+<td align="right">21.46119</td>
+<td align="right">73</td>
+</tr>
+<tr class="even">
+<td align="right">83.33333</td>
+<td align="right">71</td>
+<td align="right">8</td>
+<td align="right">32.65993</td>
+<td align="right">99</td>
+</tr>
+<tr class="odd">
+<td align="right">83.33333</td>
+<td align="right">71</td>
+<td align="right">9</td>
+<td align="right">35.68075</td>
+<td align="right">71</td>
+</tr>
+<tr class="even">
+<td align="right">83.33333</td>
+<td align="right">71</td>
+<td align="right">10</td>
+<td align="right">12.76596</td>
+<td align="right">94</td>
+</tr>
+<tr class="odd">
+<td align="right">83.33333</td>
+<td align="right">71</td>
+<td align="right">11</td>
+<td align="right">15.98174</td>
+<td align="right">73</td>
+</tr>
+<tr class="even">
+<td align="right">83.33333</td>
+<td align="right">71</td>
+<td align="right">12</td>
+<td align="right">28.68217</td>
+<td align="right">86</td>
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" title="1"><span class="co"># Overall CXi trend by group - plotted</span></a>
-<a class="sourceLine" id="cb12-2" title="2"><span class="kw">cxi_trend</span>(survey_data, month, grps, <span class="dt">cx_high =</span> <span class="dv">4</span>, <span class="dt">cx_low =</span> <span class="dv">2</span>, <span class="dt">min_surveys =</span> <span class="dv">1</span>, <span class="dt">avg_surveys =</span> <span class="dv">0</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb12-3" title="3"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> month, <span class="dt">y =</span> cxi)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb12-4" title="4"><span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb12-5" title="5"><span class="st">  </span><span class="kw">facet_wrap</span>(grps <span class="op">~</span><span class="st"> </span>., <span class="dt">nrow =</span> <span class="dv">3</span>)</a></code></pre></div>
-<pre><code>## Joining, by = &quot;grps&quot;Joining, by = &quot;grps&quot;</code></pre>
-<p><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAkAAAAEgCAMAAABrWDzDAAABC1BMVEUAAAAAADoAAGYAOpAAZrYZGT8ZGWIZP2IZP4EZYp8aGhozMzM6AAA6ADo6kNs/GRk/GT8/GWI/P4FNTU1NTW5NTY5NbqtNjshiGRliGT9iGWJiPxliYmJin9lmAABmZrZmtv9uTU1uTW5uTY5ubo5ubqtuq+SBPxmBvdmOTU2OTW6OTY6Obk2OyP+QOgCQOmaQkGaQtpCQ2/+fYhmfYj+f2dmrbk2rbm6rbo6ryKur5OSr5P+2ZgC2Zma22/+2//+9gT+92dnIjk3I///Zn2LZvYHZ2Z/Z2b3Z2dnbkDrb2//b///kq27k///r6+v/tmb/yI7/25D/27b/5Kv//7b//8j//9v//+T///8TKSd4AAAACXBIWXMAAA7DAAAOwwHHb6hkAAAPgklEQVR4nO2dC3vUxhWGJ8RpUhdoqUyaXqA2oRtoWdpCCQWnJbFr4jQbsLvY1v//JdVI2l1pdzRzZo7mtv7e54kD2J9HGr0azUUeixIABiL2AYC8gUCABQQCLCAQYAGBAAsIBFhYCnQKQA0EAiwgEGABgQALCARYQCDAAgIBFhAIsIBAgAUEAiwgEGABgRw5+eXu7r3YB5EAEMiNt799dHpy50Xsw4gPBHLn7e8gEARy5vnu7s8gEARy5O0X9/AIk0AgN6Q8J796FPsw4gOBHPl2d/fT32MYBoEADwgEWEAgwAICARYQCLBwFOidGcrXjBNCKmKKJNDV19OyvHhcfP4TBEKqnyIJNCumtUSz30AgpPopikDzh0+m5cVfjsv5l8cQKOWUWOG9rDZFEOjq5euq9Zn/6afy4s+H1d9/UaFrr0BYOtYY/9XjUQx/ajaRj6+zzxcCSXwpnfT9nVRquK3ZSJGaJX8tUNX0XPVaIAgULUV6RGnK0uT9CTQrJJOx+0DqKsjwonpOCUGyxrqs9W/ofRh/9fVkxFGYPHRVdeRxUf2mhL0zjLJcUt2yyAL154F4tP26rdzUSqixyAQ60EXZcb4PSU6j9Zu3V6qtAi013GIMeaVvZYKcV1u81xZoRIH61bVRd6mo4JBy7di6lDVuSnDKIgh0VhR3j8dZytis47V/SLqih1PGzkr0I9QiD97jML4aelW95xGWMpSV3P+3tCtamSL1dFM/L+H5EVZJxB7GD1Vz759Tr+j11LhD64gpl+HeO7pAVdPDW8rQDS5yHYyFHzF5hXku2sXUg71D1lKGQe8RprOCpyxnaHI4L7c5J5p/lTnuSxnmA1t9QQ4VTev1jFRW0JS9QeRh/NHUsQ9Eq+vlFyVf0W6Tw+mfV5NyuDHMArXPLqelDPoBic5pWOOsguV6gfzKTFRwTVkaRGqBZkVR9YEcljKs+pihZ/BF/2/G5Yct6zIP4nqW489E2zaHrPlQy6LqYzOmlMsN2bQlzimb60ZqgeYHRWH7Ur28XW1PgXRRB07Dqpzwj8u8UhYGUQSSQ6/5g0ObmWjaDb4ZC1Bl16otcU3RHx6kTrS0xmYU5r68672L2quZvC5q2BTVIKd5IP1MNKur6bWbek16weNgXVeGF8omxJlowZwTdFuScevT59YqBE6RrgStBbp4PCmDvVTvZZpOOdWT4UUNmqLczMRR2FRaFOoHC0d/C3hoojDHixo2RXlNxSxQ48/IL9XrQi4rMsNEfmE075SxEaL/WM90zJfqDYzX10W/mQu5/pLa3mWkte6sXzNNJaWvROIwvu77hNzexXpJbxPzEmkKlyeHlP4HoikCncmX6sNu72JnkOsIwoVrmNJUJkmgo71XVQsUeHsXqwmhtaKI72ckcnlySGkGIuRHWPDtXVy7v+g3e8BcqUaBwm/vQm+DOu2WRcuVzP2ddYosUITtXSzWhNuXd9zLQsoxRRYoxhZ3Fq+aet7FAqmhFFmgcDPRHcxaNO+euhSVxeVJP0UWKOBMdAfdYUXYCwUMktRMdAf1s2mtw5PDnbqtKbpAsTYaXzNI1VnOoaK3NUUWKN5G4ytdhjrLOVT0tqbIAkXcaFxKE38nL6SUKbJAMTcaR2c5fYxXCBuNI6VKkQXCRuNIqVJkgfDLVpBSpcgCRZmJRir5FFkg/MI5pFQpukAAaIBAgAUEAiwgEGABgQALCARYQCDAwlKgUwBqIBBgAYEACwgEWEAgwAICARYQCLCAQIAFBAIsIJAjz+/FPoI0gECOQKAGCOTI8z/s7sIhCOTM88++O7nzIvZRxAcCOSIfYXiMQSBn/vEIAkkgkCOVPN9/BYEgkCvPf36KPtApBHKmGoV98ij2QSQABAIsIBBgAYEACwgEWEAgwAICARYkgeQWv9gfCClViiTQrJhG3CcaqZRTFIHmD59MsUciUsoUQaCrl6+r1ifmPtEgfTQCzSby8YV9opFSpcwCVU3PVa8FgkBIrVJmgWaFZII+EFKqFOER1gzjsU80UqoUWSDMAyGlSpEEAsBEqr/ykvT7vHO4U7c1RRDorCjurv/SXV9H1AuJlTt6iXKo6G1NmQWSQ6+q9xx0KUOomp1hiXKo6G1N0R5hlUSBhvFKdVaoP5lDRSeY6lW1X4Gqpoe2lCFatN9NFyV+ocP3B12WlThWbWoXUw/2Di2XMkQP0hdb3Qf4vfGM1MYlqSVyLIsiUCnN4SxlDOq08Q82p7GKJnV5kk4N38+UO11V1oZAH+7vf7jfXNgbb5YGHU3H6wPpmibbKmu+SSqXJ+0UYSRrLRGlBWqfXekuZTjdOo5l5ZqymEuzqk61QJf/7Rk0K4qqD9SfB0oNdKyHcagbl0jnzx/u35b/u/zrm4EvTqsFWqRsW6LYrUKAlEXHZqMsUnbgEfZefPxj9aHtA80PiiKXxVTqwG+MshJPWd5P6rJM32SoD1R3o3eaP8uh1/zBYWYv1RPmEbJRwT7l0C0cLkv3zQY70ec3xe32j2fSmjFHYaOHaDMfGzploYIt5PbXrqzhRSSlQJdPxU79GFvQmwfK/qV6oSP2wbkS+/D7neiPnsmPy3kgOYS/Li/Va+1ynTHweV4bhxV/MfXDH5v//6sV6OLxpMRL9YuUk1YejnCw5PgCrTE/mEqLcu4D+U8ZGy6Xdk3bRtoeoYFRBbp8erv6b6frD16q95uiaEV8hiYg0Dc7tUWNQc2P9UzTnoneUvo6xT4aLf1O9L783/sbec1EIxUjRRKo7vtkMRONVAoClT9IddoVsVK+VX/3GNu7IKVMKQUq38tH7sKfo71XVQuEURhSqpRaoDWkOFs0Ew08YBTousxEI2WXIguEmWikVCmyQOgDIaVKkQXCTDRSqhRZIMxEAx3p7s6BVNIpCIQUK0UXCEsZSClSZIGwlIGUKkUWCMN4pFQpskBYygA6jAJhKQMpVYosEJYykFKlyAKhD4SUKkUWCEsZSKlSZIGwlAF0pP3KP0geCARYQCDAAgIBFhAIsIBAgIWlQKcA1EAgwAICARYQCLCAQIAFBAIsIBBgAYEACwgEWEAgwAICARYQyJW3X+x+8ij2QcQHAjny/Vf3Tv/z2XexDyM6EMiRkzsvYh9CEkAgR05+jdZHAoEcQQvUAIEckX0gSASB3MEorAYCARYQCLCAQIAFBAIsIBBgAYEAC0eBfG04k8OOOEh1UySB5Ba/2CcaKVWKJNCsmGKfaKSUKYpA84dPptgjESlliiDQ1cvXVeuDfaKBDo1As4l8fGGfaKRUKbNAVdNz1WuBIBBSq5RZoFkhmaAPhJQqRXiENcN47BNNTAkhgpWVQIosEPaJJiFE/UGI67blW8oz0apbml+Uj1T3SEW3KUrmCEdPEQQ6K4q7679019cRbYbqy2AwKJGK3hRdLCxK5Ag9pMwCyZ5z1fmJMhO9vIn1BqVR0UPHKISyW8QqK50U7RFWSRR+FNardu0VSKGi9Y6UThalcF6mFE2gqukJPRO93gtNu1dKO7pt7lxr18IO9g7DzkQr79bhGzj6nWpsWzopi6Yo+nkRUhSBSmlOuJnowQoerPfIFU0QYrNvR7FoewQqj6aB+kDaih36VNSKJrUnqrJEi13KrSx/KbNA7bMrxEy08bYc+HTEiiY+jnRliRUWKbeyxk8RWqBZUVR9IO8z0aT+ZWpd0JGPZ6XSuN83AJFnohd3n3mliV3UiCn6wNy6rOFmafyyWCmCQPODovD7TvSqksyhdJYqbS4tpyxhjXtZ9imzQHLoNX9w6G0munfClNBm/UQRyOoyhT1CF4U8dqKlNb5GYeu3Cy3kVNQGrJTlNQp9hPbNUMB5oNFmop37itG7mDl0cgMfo+F9oAlrJpr+qCbeB2vRwPe3wxMizkM2RC+NItDF40lJfCea26kjd5ycUm5lradc+qhbOE5sUwSB5gdTaVFa70T3Kibk5Qk7xuGnqPevx/eBan+Seye6Wy1ORTmNeKuOhUtZmS62UFJmgZqfypgm9040r5O4SNtN/WbQd1YSYGo75Xeih7CYflxPio0Uob+mSFGJnzK1tl6H8XXfJ8HdORZVYlmUdtlksOdPXWxRkkRKq5BPgc7kS/VJ7s4hHFKCqF3fJGpqgERSmmbIo0BHe6+qFiixUViLdavg8KM2/fYoERWcU0MKeX+EJbo7h13fLYcZZO/46VEbBUp1dw56x9Zp3W2DrUgpmqGALVBaAkmDSGv4KSzBppPa6A15FyjNPpCEMrmXzltE6aTEKLP5ZIFSm4nuYpppVXccU7yoYVPdYea1nAdaprQGjT3u2LoU411G8o/1pM7w4WPgZcNKJeuk3Zf7uBGcQ/U7OspPaO+ppFuF6Clas2TTAqX8CHunNMjT6s+1S2ksshAoyaWMbmr9FPPZlirrFFmgdIfxi1TPGPufV7cqC6lFiixQoksZPZYngZ5zcIw1nupSRi+1tnLutSyk3jm2QAkLJA3aqt130k+RBUq/D1RjMReWw+VJP0UWKOWlDKTipcgChXmpPmTvHGWNWVYiw5btr+htLQsCoSxWWRAIZbHKSkQgkCsQCLCAQIAFBAIsIBBgEVmgdifYstkM5O6x4ctZrErwPje62NmkDHBeay+uez23uqz+NYsrULsTrPzj0dR3YcsS+u/I+eKsuY6+z2ttAwOv51aXtXbN4grU7gRbfbh6eWj6YiarEvrrw55o32DwfV7rGxj4PLemrLVrFr8P1NR01fIuGkZf5SxL6L+h4om2GfB/Xv0fH/Z7bgs1O9csukBytb9CNop+79ZVCf135Pyw+P4Bzqu3gYHfc2sF6l6z2ALVO8EuCNQPCtECnXV7sl7PK3wL1Ltm0Udh3boNJFCIPtDRpPsX3wKF6QMtR2Hd04kr0OpY5B179U+fF3VVQv8dOS8sn1r+z6u/gYHfc6tbu/41iytQO19S/4bx5reT+S2sKqG+Yb2/I9c+T0KcV2ceyPu5tSfUvWax+0AgcyAQYAGBAAsIBFhAIMACAgEWEIjB//5dnt96Fvso4gKB3JHyQKDYB5AxEKiEQAbOb/39phC3z6sP+2V5+VSIncU/7p/Xn7n1N1F/7roCgbSc3/z4x/IHIT/ceHP5dKeU/zX/eONN3QK1f459oNGAQFrOb+4vPtx69l56Un1Y/L0RqPlz7AONBgTSUqux+PC+amwW4iwFWn7BNQUCaYFAJiCQlr5AHz1rHmEQaAUE0tITaNmJbv/+4f4+BIJAWnoCrYbx7d+/ETsQKPYBgLyBQIAFBAIsIBBgAYEACwgEWEAgwAICARYQCLCAQIDF/wFyxh8UY7vWKQAAAABJRU5ErkJggg==" /><!-- --></p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a><span class="co"># Overall CXi trend by group - plotted</span></span>
+<span id="cb14-2"><a href="#cb14-2"></a><span class="kw">cxi_trend</span>(survey_data, month, grps, <span class="dt">cx_high =</span> <span class="dv">4</span>, <span class="dt">cx_low =</span> <span class="dv">2</span>, <span class="dt">min_surveys =</span> <span class="dv">1</span>, <span class="dt">avg_surveys =</span> <span class="dv">0</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb14-3"><a href="#cb14-3"></a><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> month, <span class="dt">y =</span> cxi)) <span class="op">+</span></span>
+<span id="cb14-4"><a href="#cb14-4"></a><span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span></span>
+<span id="cb14-5"><a href="#cb14-5"></a><span class="st">  </span><span class="kw">facet_wrap</span>(grps <span class="op">~</span><span class="st"> </span>., <span class="dt">nrow =</span> <span class="dv">3</span>)</span></code></pre></div>
+<pre><code>## Joining, by = &quot;grps&quot;
+## Joining, by = &quot;grps&quot;</code></pre>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
 </div>
 <div id="calculating-nps" class="section level2">
 <h2>Calculating NPS</h2>
 <p><em>Net Promoter Score</em> (NPS) was originally developed by Fred Reichheld and now is owned by <a href="https://www.netpromoter.com/">Bain Company and Satmetrix Systems</a>. The <a href="https://en.wikipedia.org/wiki/Net_Promoter">Wikipedia page</a> is another good source of information. According to Wikipedia it “is a management tool that can be used to gauge the loyalty of a firm’s customer relationships.”</p>
 <p>The calculation requires a single question with a ten-point scale. Like CXi it is not difficult to do manually; the package enables deeper analysis.Below, four calculations are done using two different functions.</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" title="1"><span class="co"># Overall NPS</span></a>
-<a class="sourceLine" id="cb14-2" title="2"><span class="kw">nps_calc</span>(survey_data) <span class="op">%&gt;%</span><span class="st"> </span>knitr<span class="op">::</span><span class="kw">kable</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a><span class="co"># Overall NPS</span></span>
+<span id="cb16-2"><a href="#cb16-2"></a><span class="kw">nps_calc</span>(survey_data) <span class="op">%&gt;%</span><span class="st"> </span>knitr<span class="op">::</span><span class="kw">kable</span>()</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -515,13 +534,13 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 </thead>
 <tbody>
 <tr class="odd">
-<td align="right">-46.3</td>
+<td align="right">-51.3</td>
 <td align="right">1000</td>
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" title="1"><span class="co">## NPS by group</span></a>
-<a class="sourceLine" id="cb15-2" title="2"><span class="kw">nps_calc</span>(survey_data, grps) <span class="op">%&gt;%</span><span class="st"> </span>knitr<span class="op">::</span><span class="kw">kable</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a><span class="co">## NPS by group</span></span>
+<span id="cb17-2"><a href="#cb17-2"></a><span class="kw">nps_calc</span>(survey_data, grps) <span class="op">%&gt;%</span><span class="st"> </span>knitr<span class="op">::</span><span class="kw">kable</span>()</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -533,23 +552,23 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <tbody>
 <tr class="odd">
 <td align="left">a</td>
-<td align="right">-46.70659</td>
+<td align="right">-45.50898</td>
 <td align="right">334</td>
 </tr>
 <tr class="even">
 <td align="left">b</td>
-<td align="right">-42.34234</td>
+<td align="right">-57.35736</td>
 <td align="right">333</td>
 </tr>
 <tr class="odd">
 <td align="left">c</td>
-<td align="right">-49.84985</td>
+<td align="right">-51.05105</td>
 <td align="right">333</td>
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" title="1"><span class="co"># Overall NPS trend</span></a>
-<a class="sourceLine" id="cb16-2" title="2"><span class="kw">nps_trend</span>(survey_data, month) <span class="op">%&gt;%</span><span class="st"> </span>knitr<span class="op">::</span><span class="kw">kable</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a><span class="co"># Overall NPS trend</span></span>
+<span id="cb18-2"><a href="#cb18-2"></a><span class="kw">nps_trend</span>(survey_data, month) <span class="op">%&gt;%</span><span class="st"> </span>knitr<span class="op">::</span><span class="kw">kable</span>()</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -563,97 +582,98 @@ code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61
 <tbody>
 <tr class="odd">
 <td align="right">83.33333</td>
-<td align="right">67</td>
+<td align="right">71</td>
 <td align="right">1</td>
-<td align="right">-36.36364</td>
-<td align="right">88</td>
-</tr>
-<tr class="even">
-<td align="right">83.33333</td>
-<td align="right">67</td>
-<td align="right">2</td>
-<td align="right">-46.87500</td>
-<td align="right">96</td>
-</tr>
-<tr class="odd">
-<td align="right">83.33333</td>
-<td align="right">67</td>
-<td align="right">3</td>
-<td align="right">-70.11494</td>
-<td align="right">87</td>
-</tr>
-<tr class="even">
-<td align="right">83.33333</td>
-<td align="right">67</td>
-<td align="right">4</td>
-<td align="right">-54.92958</td>
-<td align="right">71</td>
-</tr>
-<tr class="odd">
-<td align="right">83.33333</td>
-<td align="right">67</td>
-<td align="right">5</td>
-<td align="right">-41.86047</td>
-<td align="right">86</td>
-</tr>
-<tr class="even">
-<td align="right">83.33333</td>
-<td align="right">67</td>
-<td align="right">6</td>
-<td align="right">-50.70423</td>
-<td align="right">71</td>
-</tr>
-<tr class="odd">
-<td align="right">83.33333</td>
-<td align="right">67</td>
-<td align="right">7</td>
-<td align="right">-53.16456</td>
-<td align="right">79</td>
-</tr>
-<tr class="even">
-<td align="right">83.33333</td>
-<td align="right">67</td>
-<td align="right">8</td>
-<td align="right">-31.18280</td>
-<td align="right">93</td>
-</tr>
-<tr class="odd">
-<td align="right">83.33333</td>
-<td align="right">67</td>
-<td align="right">9</td>
-<td align="right">-53.73134</td>
-<td align="right">67</td>
-</tr>
-<tr class="even">
-<td align="right">83.33333</td>
-<td align="right">67</td>
-<td align="right">10</td>
-<td align="right">-51.13636</td>
-<td align="right">88</td>
-</tr>
-<tr class="odd">
-<td align="right">83.33333</td>
-<td align="right">67</td>
-<td align="right">11</td>
-<td align="right">-32.58427</td>
-<td align="right">89</td>
-</tr>
-<tr class="even">
-<td align="right">83.33333</td>
-<td align="right">67</td>
-<td align="right">12</td>
-<td align="right">-38.82353</td>
+<td align="right">-44.70588</td>
 <td align="right">85</td>
+</tr>
+<tr class="even">
+<td align="right">83.33333</td>
+<td align="right">71</td>
+<td align="right">2</td>
+<td align="right">-45.05495</td>
+<td align="right">91</td>
+</tr>
+<tr class="odd">
+<td align="right">83.33333</td>
+<td align="right">71</td>
+<td align="right">3</td>
+<td align="right">-50.58824</td>
+<td align="right">85</td>
+</tr>
+<tr class="even">
+<td align="right">83.33333</td>
+<td align="right">71</td>
+<td align="right">4</td>
+<td align="right">-58.24176</td>
+<td align="right">91</td>
+</tr>
+<tr class="odd">
+<td align="right">83.33333</td>
+<td align="right">71</td>
+<td align="right">5</td>
+<td align="right">-62.50000</td>
+<td align="right">72</td>
+</tr>
+<tr class="even">
+<td align="right">83.33333</td>
+<td align="right">71</td>
+<td align="right">6</td>
+<td align="right">-52.50000</td>
+<td align="right">80</td>
+</tr>
+<tr class="odd">
+<td align="right">83.33333</td>
+<td align="right">71</td>
+<td align="right">7</td>
+<td align="right">-39.72603</td>
+<td align="right">73</td>
+</tr>
+<tr class="even">
+<td align="right">83.33333</td>
+<td align="right">71</td>
+<td align="right">8</td>
+<td align="right">-57.57576</td>
+<td align="right">99</td>
+</tr>
+<tr class="odd">
+<td align="right">83.33333</td>
+<td align="right">71</td>
+<td align="right">9</td>
+<td align="right">-29.57746</td>
+<td align="right">71</td>
+</tr>
+<tr class="even">
+<td align="right">83.33333</td>
+<td align="right">71</td>
+<td align="right">10</td>
+<td align="right">-55.31915</td>
+<td align="right">94</td>
+</tr>
+<tr class="odd">
+<td align="right">83.33333</td>
+<td align="right">71</td>
+<td align="right">11</td>
+<td align="right">-46.57534</td>
+<td align="right">73</td>
+</tr>
+<tr class="even">
+<td align="right">83.33333</td>
+<td align="right">71</td>
+<td align="right">12</td>
+<td align="right">-67.44186</td>
+<td align="right">86</td>
 </tr>
 </tbody>
 </table>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" title="1"><span class="co"># Overall NPS trend by group - plotted</span></a>
-<a class="sourceLine" id="cb17-2" title="2"><span class="kw">nps_trend</span>(survey_data, month, grps, <span class="dt">min_surveys =</span> <span class="dv">1</span>, <span class="dt">avg_surveys =</span> <span class="dv">0</span>) <span class="op">%&gt;%</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb17-3" title="3"><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> month, <span class="dt">y =</span> nps)) <span class="op">+</span></a>
-<a class="sourceLine" id="cb17-4" title="4"><span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span></a>
-<a class="sourceLine" id="cb17-5" title="5"><span class="st">  </span><span class="kw">facet_wrap</span>(grps <span class="op">~</span><span class="st"> </span>., <span class="dt">nrow =</span> <span class="dv">3</span>)</a></code></pre></div>
-<pre><code>## Joining, by = &quot;grps&quot;Joining, by = &quot;grps&quot;</code></pre>
-<p><img src="data:image/png;base64,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" /><!-- --></p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a><span class="co"># Overall NPS trend by group - plotted</span></span>
+<span id="cb19-2"><a href="#cb19-2"></a><span class="kw">nps_trend</span>(survey_data, month, grps, <span class="dt">min_surveys =</span> <span class="dv">1</span>, <span class="dt">avg_surveys =</span> <span class="dv">0</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb19-3"><a href="#cb19-3"></a><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="dt">x =</span> month, <span class="dt">y =</span> nps)) <span class="op">+</span></span>
+<span id="cb19-4"><a href="#cb19-4"></a><span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span></span>
+<span id="cb19-5"><a href="#cb19-5"></a><span class="st">  </span><span class="kw">facet_wrap</span>(grps <span class="op">~</span><span class="st"> </span>., <span class="dt">nrow =</span> <span class="dv">3</span>)</span></code></pre></div>
+<pre><code>## Joining, by = &quot;grps&quot;
+## Joining, by = &quot;grps&quot;</code></pre>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
 </div>
 
 
